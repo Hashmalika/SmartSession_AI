@@ -1,0 +1,30 @@
+# ---- PYTHON ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+Backend/venv/
+venv/
+
+# ---- DB FILES ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- NODE / NEXTJS ----
+Frontend/node_modules/
+Frontend/.next/
+Frontend/.vercel/
+dist/
+build/
+
+# ---- ENV FILES ----
+*.env
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- IDE ----
+.vscode/
+.idea/
