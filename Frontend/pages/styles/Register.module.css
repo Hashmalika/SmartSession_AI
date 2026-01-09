@@ -1,0 +1,283 @@
+/* Container */
+.loginContainer {
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Card */
+.loginCard {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 48px 40px 36px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.1),
+    0 8px 16px rgba(0,0,0,0.1);
+  animation: fadeInUp 0.6s ease;
+  position: relative;
+}
+
+/* SVG Logo Container */
+.svgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-top: 8px;
+}
+
+.svgContainer svg {
+  width: 64px;
+  height: 64px;
+  color: #1976d2;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.svgContainer svg path,
+.svgContainer svg circle,
+.svgContainer svg rect,
+.svgContainer svg g {
+  fill: currentColor;
+  transition: fill 0.3s ease;
+}
+
+/* Logo Image Styling */
+.logoImage {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  animation: fadeInUp 0.8s ease 0.2s both;
+  filter: drop-shadow(0 2px 4px rgba(25, 118, 210, 0.2));
+}
+
+/* Header */
+.loginHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.loginHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #212121;
+}
+.loginHeader p {
+  font-size: 14px;
+  color: #757575;
+}
+
+/* Form */
+.loginForm { width: 100%; }
+.formGroup { margin-bottom: 24px; position: relative; }
+.inputWrapper { position: relative; }
+
+/* Inputs & Selects */
+.inputWrapper input,
+.inputWrapper select {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  padding: 16px 0 8px;
+  font-size: 16px;
+  background: #fff; /* visible background for select */
+  outline: none;
+  color: #212121;
+  cursor: pointer;
+}
+
+/* Focus effect */
+.inputWrapper input:focus,
+.inputWrapper select:focus {
+  border-bottom-color: #1976d2;
+}
+
+/* Labels */
+.inputWrapper label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #757575;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+/* Floating label on focus OR if input/select has value */
+.inputWrapper input:focus + label,
+.inputWrapper input:not(:placeholder-shown) + label,
+.inputWrapper select:focus + label,
+.inputWrapper select.filled + label {
+  transform: translateY(-24px) scale(0.75);
+  color: #1976d2;
+}
+
+
+
+
+/* Bottom line animation */
+.inputLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #1976d2;
+  transition: width 0.2s ease;
+}
+.inputWrapper input:focus ~ .inputLine,
+.inputWrapper select:focus ~ .inputLine {
+  width: 100%;
+}
+
+/* Custom arrow for select */
+.inputWrapper select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23757575" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+
+/* Password toggle */
+.passwordWrapper input { padding-right: 48px; }
+.passwordToggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 8px;
+  color: #757575;
+  transition: 0.2s ease;
+}
+.passwordToggle:hover { color: #1976d2; }
+
+/* Error */
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+/* Button */
+.loginBtn {
+  width: 100%;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-top: 16px;
+}
+.loginBtn:hover { background: #1565c0; }
+.loginBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #757575;
+}
+.footer span {
+  color: #1976d2;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .loginCard { padding: 32px 24px; }
+  .loginHeader h2 { font-size: 1.25rem; }
+  .inputWrapper input,
+  .inputWrapper select { font-size: 14px; padding: 12px 0 8px; }
+  .loginBtn { font-size: 13px; padding: 10px; }
+}
+
+.customSelect {
+  position: relative;
+  cursor: pointer;
+}
+
+.selectTrigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.customSelect.open .selectTrigger {
+  border-bottom-color: #1976d2;
+}
+
+.selectedValue {
+  font-size: 16px;
+  color: #212121;
+}
+
+.arrow {
+  font-size: 14px;
+  color: #757575;
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-top: 4px;
+  z-index: 20;
+}
+
+.option {
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.option:hover {
+  background: #e3f2fd;
+}
+
+.option.selected {
+  background: #1976d2;
+  color: white;
+}
+
+/* floating label */
+.customSelect label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #757575;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+.customSelect label.filled {
+  transform: translateY(-24px) scale(0.75);
+  color: #1976d2;
+}
+
+.open .selectTrigger {
+  border-bottom-color: #1976d2;
+}

@@ -1,18 +1,57 @@
-/* 
+/* =========================
+   Global Styles for SmartSession
+   Material Design Theme (Based on Login)
+   Inspired by Google Material Design
+========================= */
+
+/* ---------- Variables ---------- */
 :root {
-  --dark-bg: #020617;
-  --dark-card: rgba(20, 20, 40, 0.85);
-  --accent-blue: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  /* Colors - Material Design */
+  --light-bg: #fafafa; /* Material Design background */
+  --light-card: #ffffff;
+  --dark-bg: #121212;
+  --dark-card: rgba(20, 20, 20, 0.95);
+  
+  /* Primary Colors - Material Design Blue */
+  --primary: #1976d2; /* Material Design Blue 700 */
+  --primary-hover: #1565c0; /* Material Design Blue 800 */
+  --primary-light: #42a5f5; /* Material Design Blue 400 */
+  --accent-blue: #1976d2; /* Same as primary for consistency */
+  --accent-glow: rgba(25, 118, 210, 0.1);
+  
+  /* Status Colors */
   --success: #10b981;
   --warning: #f59e0b;
-  --danger: #ef4444;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border: rgba(59, 130, 246, 0.2);
-  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --transition: 0.3s ease;
+  --danger: #d32f2f; /* Material Design Red */
+  --error: #d32f2f; /* Material Design Red for errors */
+  
+  /* Borders - Material Design */
+  --border: #e0e0e0; /* Material Design Divider */
+  --border-dark: rgba(59, 130, 246, 0.2);
+
+  /* Text - Material Design */
+  --text-primary-light: #212121; /* Material Design Text Primary */
+  --text-secondary-light: #757575; /* Material Design Text Secondary */
+  --text-primary-dark: #f8fafc;
+  --text-secondary-dark: #94a3b8;
+  --text-primary: var(--text-primary-dark); /* Default for dark mode */
+  --text-secondary: var(--text-secondary-dark); /* Default for dark mode */
+
+  /* Shadows - Material Design (layered) */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Transitions - Material Design */
+  --transition: 0.2s ease; /* Material Design standard transition */
+  --transition-slow: 0.3s ease;
+
+  /* Fonts - Material Design */
+  --font: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* ---------- Global Reset ---------- */
 * {
   margin: 0;
   padding: 0;
@@ -20,55 +59,38 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--dark-bg);
-  color: var(--text-primary);
+  font-family: var(--font);
   line-height: 1.6;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-} */
-
-/* Global Styles */
-
-:root {
-  --dark-bg: #020617;
-  --dark-card: rgba(20, 20, 40, 0.85);
-  --accent-blue: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  --accent-glow: rgba(59, 130, 246, 0.3);
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border: rgba(59, 130, 246, 0.2);
-  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --transition: 0.3s ease;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--dark-bg);
   color: var(--text-primary);
-  line-height: 1.6;
+  background: var(--dark-bg); /* Default to dark theme */
+  min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  transition: background var(--transition-slow), color var(--transition-slow);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animated background gradient */
+/* ---------- Light Mode Support (optional) ---------- */
+body.light-mode {
+  background: var(--light-bg);
+  color: var(--text-primary-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --border: #e0e0e0;
+}
+
+/* ---------- Dark Mode Support (default) ---------- */
+body.dark-mode,
+body {
+  background: var(--dark-bg);
+  color: var(--text-primary-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --border: var(--border-dark);
+}
+
+/* ---------- Animated Background Gradient (for dark theme) ---------- */
 body::before {
   content: '';
   position: fixed;
@@ -76,47 +98,122 @@ body::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
-  animation: rotateGradient 20s linear infinite;
+  background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 50%);
+  animation: rotateGradient 25s linear infinite;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Global Animations */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { 
-    opacity: 1;
-  }
-  50% { 
-    opacity: 0.5;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
+body.light-mode::before {
+  display: none;
 }
 
 @keyframes rotateGradient {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ---------- Input & Form - Material Design ---------- */
+input, textarea, select, button {
+  font-family: var(--font);
+  font-size: 16px; /* Material Design standard */
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: #0d47a1;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+}
+
+button.primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+button.primary:hover {
+  background: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ---------- Cards ---------- */
+/* Login cards stay white on dark background */
+.card {
+  background: var(--light-card); /* White cards for login */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition);
+}
+
+/* Dark cards for dashboard components (use .card.dark class) */
+.card.dark {
+  background: var(--dark-card);
+}
+
+body.light-mode .card {
+  background: var(--light-card);
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ---------- Utility Classes ---------- */
+.text-center { text-align: center; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+
+.hidden { display: none !important; }
+.flex { display: flex; }
+.flex-center { display: flex; justify-content: center; align-items: center; }
+.w-full { width: 100%; }
+
+/* ---------- Login Container Support ---------- */
+/* Ensures login containers have dark background */
+[class*="loginContainer"],
+[class*="LoginContainer"] {
+  background: var(--dark-bg) !important;
+}
+
+body.light-mode [class*="loginContainer"],
+body.light-mode [class*="LoginContainer"] {
+  background: var(--light-bg) !important;
 }

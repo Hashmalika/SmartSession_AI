@@ -1,0 +1,40 @@
+.sidebar {
+    width: 220px;
+    background: #020617;
+    color: #f8fafc;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .link {
+    color: #cbd5f5;
+    text-decoration: none;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  
+  .link:hover {
+    background: rgba(59, 130, 246, 0.15);
+    color: #fff;
+  }
+  
+  .logout {
+    margin-top: auto;
+    color: #ef4444;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  

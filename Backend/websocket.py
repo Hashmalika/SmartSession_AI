@@ -8,6 +8,7 @@ import jwt
 from database import SessionLocal
 from models import Telemetry
 from auth import SECRET, ALGO
+from models import User
 
 # ML imports
 import cv2
@@ -61,10 +62,15 @@ async def student_ws(websocket: WebSocket):
     except Exception:
         await websocket.close()
         return
+    
+    db = SessionLocal()   # ✅ CREATE DB FIRST
 
     student_id = user["user_id"]
+
+    student = db.query(User).filter(User.id == student_id).first()
+    student_name = student.name if student else f"Student {student_id}"
+
     students_ws[student_id] = websocket
-    db = SessionLocal()
     confusion_history.setdefault(student_id, [])
 
     print(f"✅ Student {student_id} connected.")
@@ -114,6 +120,7 @@ async def student_ws(websocket: WebSocket):
             # ---------- TELEMETRY ----------
             telemetry = {
                 "student_id": student_id,
+                "student_name": student_name, 
                 "face_count": proctor_data["face_count"],
                 "gaze": proctor_data["gaze"],
                 "emotion": proctor_data["emotion"],
@@ -144,7 +151,9 @@ async def student_ws(websocket: WebSocket):
             packet = {
                 "type": "telemetry",
                 "student_id": student_id,
+                "student_name": student_name, 
                 "data": telemetry
+
             }
 
             for ws in teachers_ws[:]:

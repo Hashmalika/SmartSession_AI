@@ -1,203 +1,138 @@
-// import { useState } from "react";
-// import { useRouter } from "next/router";
-// import { api } from "../api";
-// import styles from "./styles/Login.module.css";
-
-// export default function Login() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const router = useRouter();
-
-//   const [loading, setLoading] = useState(false);
-
-//   async function handleLogin(e) {
-//     e.preventDefault();
-//     setLoading(true);
-//     try {
-//       const res =await api("/login", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-//       body: new URLSearchParams({
-//         username: email,  // email from input
-//         password: password // password from input
-//       }),
-//       });
-
-//       if (!res.ok) {
-//         const err = await res.json();
-//         alert(err.detail || err.message || "Login failed");
-//         setLoading(false);
-//         return;
-//       }
-
-//       // Fetch user info
-//       const userRes = await api("/me");
-//       if (!userRes.ok) {
-//         alert("Failed to fetch user info");
-//         setLoading(false);
-//         return;
-//       }
-       
-//       const user = await userRes.json();
-
-//       // Redirect based on role
-//       if (user.role === "student") router.push("/student");
-//       else router.push("/teacher");
-
-//     }catch (err) {
-//     console.error("Login error:", err);
-//     alert("Something went wrong during login.");
-//     setLoading(false);
-
-//     }
-
-//   }
-
-//   return (
-//   <div className={styles.container}>
-//     <form className={styles.card} onSubmit={handleLogin}>
-//       <div className={styles.title}>Secure Login</div>
-
-//       <div className={styles.inputGroup}>
-//         <label className={styles.label}>Email</label>
-//         <input
-//           className={styles.input}
-//           placeholder="Enter your email"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//         />
-//       </div>
-
-//       <div className={styles.inputGroup}>
-//         <label className={styles.label}>Password</label>
-//         <input
-//           className={styles.input}
-//           type="password"
-//           placeholder="Enter your password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-//       </div>
-
-//       <button className={styles.button} type="submit" disabled={loading}>
-//         {loading ? "Please wait..." : "Login"}
-//       </button>
-
-
-//       <div className={styles.footer}>
-//         AI Proctoring System • Secure Access
-//         <br />
-//         <span style={{ cursor: "pointer", color: "blue" }} onClick={() => router.push("/register")}>
-//           Don't have an account? Register
-//         </span>
-//       </div>
-
-//     </form>
-//   </div>
-// );
-
-// }
-
-
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { Eye, EyeOff } from "lucide-react";
 import { api } from "../api";
 import styles from "./styles/Login.module.css";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  async function handleLogin(e) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
     setLoading(true);
 
     try {
-      // 1️⃣ Login request using Form data to match FastAPI
       const res = await api("/login", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          username: email, // must match backend username
-          password: password,
+          username: email,
+          password,
         }),
       });
 
       if (!res.ok) {
         const err = await res.json();
-        alert(err.detail || err.message || "Login failed");
-        setLoading(false);
+        setError(err.detail || "Login failed");
         return;
       }
 
-      // 2️⃣ Fetch user info
       const userRes = await api("/me");
-      if (!userRes.ok) {
-        alert("Failed to fetch user info");
-        setLoading(false);
-        return;
-      }
-
       const user = await userRes.json();
 
-      // 3️⃣ Redirect based on role
-      if (user.role === "student") router.push("/student");
-      else router.push("/teacher");
+      user.role === "student"
+        ? router.push("/student/dashboard")
+        : router.push("/teacher/dashboard");
 
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong during login.");
+    } catch {
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className={styles.container}>
-      <form className={styles.card} onSubmit={handleLogin}>
-        <div className={styles.title}>Secure Login</div>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginCard}>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Email</label>
-          <input
-            className={styles.input}
-            placeholder="Enter your email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+        {/* SVG LOGO */}
+        <div className={styles.svgContainer}>
+          <img 
+            src="/smartsession.svg" 
+            alt="SmartSession Logo" 
+            className={styles.logoImage}
           />
         </div>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value.slice(0, 72))}
-            required
-          />
+        {/* HEADER */}
+        <div className={styles.loginHeader}>
+          <h2>Sign in</h2>
         </div>
 
-        <button className={styles.button} type="submit" disabled={loading}>
-          {loading ? "Please wait..." : "Login"}
-        </button>
+        {/* FORM */}
+        <form className={styles.loginForm} onSubmit={handleSubmit}>
 
-        <div className={styles.footer}>
-          AI Proctoring System • Secure Access
-          <br />
-          <span
-            style={{ cursor: "pointer", color: "blue" }}
-            onClick={() => router.push("/register")}
+          {/* EMAIL */}
+          <div className={styles.formGroup}>
+            <div className={styles.inputWrapper}>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="" 
+                autoComplete="off"
+              />
+              <label>Email</label>
+              <span className={styles.inputLine}></span>
+            </div>
+          </div>
+
+          {/* PASSWORD */}
+          <div className={styles.formGroup}>
+            <div className={`${styles.inputWrapper} ${styles.passwordWrapper}`}>
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value.slice(0, 72))}
+                 placeholder="" 
+                autoComplete="new-password"
+
+              />
+              <label>Password</label>
+              <span className={styles.inputLine}></span>
+
+              {password && (
+                <span
+                  className={styles.passwordToggle}
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* ERROR */}
+          {error && <p className={styles.error}>{error}</p>}
+
+          {/* BUTTON */}
+          <button
+            type="submit"
+            className={`${styles.loginBtn} ${loading ? styles.loading : ""}`}
+            disabled={loading}
           >
-            Don't have an account? Register
+            {loading ? "Signing in..." : "SIGN IN"}
+          </button>
+        </form>
+
+        {/* FOOTER */}
+        <div className={styles.footer}>
+          <p> Don't have an account</p>
+          <span onClick={() => router.push("/register")}>
+            Register
           </span>
         </div>
-      </form>
+
+      </div>
     </div>
   );
 }
